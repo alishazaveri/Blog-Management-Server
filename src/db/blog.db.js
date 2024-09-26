@@ -34,22 +34,30 @@ export default function makeBlogsDb({ db, Blog }) {
     return blog;
   }
 
-  async function getAllBlogs() {
+  async function getAllBlogs({ page, pageSize }) {
     await db.connect();
 
-    const blogs = await Blog.find({ isDeleted: false }).populate("userId");
+    const allBlogs = await Blog.find({ isDeleted: false });
 
-    return blogs;
+    const blogs = await Blog.find({ isDeleted: false })
+      .populate("userId")
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    return { blogs, totalCount: allBlogs.length };
   }
 
-  async function getAllBlogsByUserId({ userId }) {
+  async function getAllBlogsByUserId({ userId, page, pageSize }) {
     await db.connect();
 
-    const blogs = await Blog.find({ userId, isDeleted: false }).populate(
-      "userId"
-    );
+    const allBlogs = await Blog.find({ userId, isDeleted: false });
 
-    return blogs;
+    const blogs = await Blog.find({ userId, isDeleted: false })
+      .populate("userId")
+      .skip((page - 1) * pageSize)
+      .limit(pageSize);
+
+    return { blogs, totalCount: allBlogs.length };
   }
 
   async function removeBlogById({ id, userId }) {

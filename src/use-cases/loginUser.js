@@ -11,10 +11,7 @@ export async function loginUser({ emailId, password }) {
     const user = await usersDb.getUserByEmailId({ emailId });
 
     if (user && user._id) {
-      const isCorrectPassword = bcrypt.compare(
-        user.password,
-        process.env.HASH_SALT
-      );
+      const isCorrectPassword = await bcrypt.compare(password, user.password);
 
       if (isCorrectPassword) {
         delete user.password;

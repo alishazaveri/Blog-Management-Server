@@ -2,13 +2,17 @@ import Joi from "joi";
 import { blogsDb } from "../db/index.js";
 import { statusContants } from "../constants/status.constant.js";
 
-export async function getAllBlogsByUserId({ userId }) {
+export async function getAllBlogsByUserId({ userId, page, pageSize }) {
   try {
-    validateInput({ userId });
+    validateInput({ userId, page, pageSize });
 
-    const blogs = await blogsDb.getAllBlogsByUserId({ userId });
+    const { blogs, totalCount } = await blogsDb.getAllBlogsByUserId({
+      userId,
+      page,
+      pageSize,
+    });
 
-    return { data: blogs };
+    return { data: blogs, totalCount };
   } catch (error) {
     console.log("Get All Blogs By User Id Error ", error);
 
@@ -20,12 +24,14 @@ export async function getAllBlogsByUserId({ userId }) {
     };
   }
 
-  function validateInput({ userId }) {
+  function validateInput({ userId, page, pageSize }) {
     const schema = Joi.object({
       userId: Joi.string().required(),
+      page: Joi.string(),
+      pageSize: Joi.string(),
     });
 
-    const { error } = schema.validate({ userId });
+    const { error } = schema.validate({ userId, page, pageSize });
     if (error) {
       return {
         error: {
