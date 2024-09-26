@@ -27,7 +27,9 @@ export default function makeBlogsDb({ db, Blog }) {
   async function getBlogById({ id }) {
     await db.connect();
 
-    const blog = await Blog.findOne({ _id: id, isDeleted: false });
+    const blog = await Blog.findOne({ _id: id, isDeleted: false }).populate(
+      "userId"
+    );
 
     return blog;
   }
@@ -35,7 +37,7 @@ export default function makeBlogsDb({ db, Blog }) {
   async function getAllBlogs() {
     await db.connect();
 
-    const blogs = await Blog.find({ isDeleted: false });
+    const blogs = await Blog.find({ isDeleted: false }).populate("userId");
 
     return blogs;
   }
@@ -43,7 +45,9 @@ export default function makeBlogsDb({ db, Blog }) {
   async function getAllBlogsByUserId({ userId }) {
     await db.connect();
 
-    const blogs = await Blog.find({ userId, isDeleted: false });
+    const blogs = await Blog.find({ userId, isDeleted: false }).populate(
+      "userId"
+    );
 
     return blogs;
   }
