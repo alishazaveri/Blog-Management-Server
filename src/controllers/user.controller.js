@@ -16,11 +16,9 @@ export async function verifyUserController(req, res) {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    console.log({ data });
-
     return res.status(statusContants.HTTP_RESPONSE_OK).json({ data });
   } catch (error) {
-    console.log("Login User Controller Error ", error);
+    console.log("Verify User Controller Error ", error);
     return res
       .status(statusContants.HTTP_RESPONSE_INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
@@ -85,24 +83,10 @@ export async function logoutUserController(req, res) {
       .status(statusContants.HTTP_RESPONSE_OK)
       .json({ data: "User logged out" });
   } catch (error) {
-    console.log("Login User Controller Error ", error);
+    console.log("Logout User Controller Error ", error);
     return res
       .status(statusContants.HTTP_RESPONSE_INTERNAL_SERVER_ERROR)
       .json({ error: error.message });
-  }
-
-  function validateInput({ emailId, password }) {
-    const schema = Joi.object({
-      emailId: Joi.string().required(),
-      password: Joi.string().required(),
-    });
-
-    const { error } = schema.validate({ emailId, password });
-    if (error) {
-      return res
-        .status(statusContants.HTTP_RESPONSE_FORBIDDEN)
-        .json({ error: error.message });
-    }
   }
 }
 

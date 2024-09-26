@@ -1,11 +1,11 @@
 import Joi from "joi";
 import { blogsDb } from "../db/index.js";
 
-export async function getAllBlogs() {
+export async function getAllBlogs({ page, pageSize }) {
   try {
-    const blogs = await blogsDb.getAllBlogs();
+    const { blogs, totalCount } = await blogsDb.getAllBlogs({ page, pageSize });
 
-    return { data: blogs };
+    return { data: blogs, totalCount };
   } catch (error) {
     console.log("Get All Blogs Error ", error);
 

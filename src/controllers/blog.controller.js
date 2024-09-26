@@ -85,13 +85,17 @@ export async function getBlogByIdController(req, res) {
 
 export async function getAllBlogsController(req, res) {
   try {
-    const { data, error } = await getAllBlogs();
+    const { page, pageSize } = req.query;
+
+    const { data, totalCount, error } = await getAllBlogs({ page, pageSize });
 
     if (error && error.statusCode) {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    return res.status(statusContants.HTTP_RESPONSE_OK).json({ data });
+    return res
+      .status(statusContants.HTTP_RESPONSE_OK)
+      .json({ data, totalCount });
   } catch (error) {
     console.log("Get All Blogs Controller Error ", error);
     return res
@@ -103,18 +107,23 @@ export async function getAllBlogsController(req, res) {
 export async function getAllBlogsByUserIdController(req, res) {
   try {
     const user = req.user;
+    const { page, pageSize } = req.query;
 
     validateInput({ userId: user._id });
 
-    const { data, error } = await getAllBlogsByUserId({
+    const { data, totalCount, error } = await getAllBlogsByUserId({
       userId: user._id,
+      page,
+      pageSize,
     });
 
     if (error && error.statusCode) {
       return res.status(error.statusCode).json({ error: error.message });
     }
 
-    return res.status(statusContants.HTTP_RESPONSE_OK).json({ data });
+    return res
+      .status(statusContants.HTTP_RESPONSE_OK)
+      .json({ data, totalCount });
   } catch (error) {
     console.log("Get All Blogs By User Id Controller Error ", error);
     return res
