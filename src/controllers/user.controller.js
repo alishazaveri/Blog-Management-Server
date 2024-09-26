@@ -51,7 +51,11 @@ export async function loginUserController(req, res) {
     }
 
     return res
-      .cookie("accessToken", data)
+      .cookie("accessToken", data, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "None",
+      })
       .status(statusContants.HTTP_RESPONSE_OK)
       .json({ data });
   } catch (error) {
@@ -108,7 +112,11 @@ export async function addUserController(req, res) {
     }
 
     return res
-      .cookie("accessToken", data)
+      .cookie("accessToken", data, {
+        secure: true,
+        httpOnly: true,
+        sameSite: "None",
+      })
       .status(statusContants.HTTP_RESPONSE_OK)
       .json({ data });
   } catch (error) {

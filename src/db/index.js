@@ -15,12 +15,10 @@ class DB {
 
   async connect() {
     if (this.connection.readyState && this.connection.readyState === 1) {
-      console.log(`connetion is ${this.connection.readyState}`);
       return this.connection;
     }
 
     try {
-      // Attempt to connect to the MongoDB server
       const db = await mongoose.connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -29,7 +27,6 @@ class DB {
       this.connection = db.connections[0];
       this.isReady = this.connection.readyState === 1;
 
-      console.log(`Connection state: ${this.connection.readyState}`);
       return this.connection;
     } catch (error) {
       console.error("Error connecting to MongoDB:", error);
