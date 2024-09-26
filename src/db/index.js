@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import { config } from "dotenv";
 import User from "./models/user.model.js";
 import makeUsersDb from "./user.db.js";
+import Blog from "./models/blog.model.js";
+import makeBlogsDb from "./blog.db.js";
 
 config();
 
@@ -39,5 +41,6 @@ class DB {
 const db = new DB();
 
 const usersDb = makeUsersDb({ db, User });
+const blogsDb = makeBlogsDb({ db, Blog });
 
-export { usersDb };
+export { usersDb, blogsDb };
