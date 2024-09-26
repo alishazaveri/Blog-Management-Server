@@ -1,5 +1,6 @@
 import express from "express";
 import { config } from "dotenv";
+import restService from "./routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -14,6 +15,8 @@ app.use(
     origin: "*",
   })
 );
+
+app.use("/api", restService);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started at port ${process.env.PORT}`);
