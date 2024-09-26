@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: "https://blog-mg.netlify.app/",
+    origin: "https://blog-mg.netlify.app",
     credentials: true,
   })
 );
