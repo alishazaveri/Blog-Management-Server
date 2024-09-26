@@ -20,7 +20,12 @@ export async function loginUser({ emailId, password }) {
         delete user.password;
 
         const token = jwt.sign(
-          { _id: user._id, username: user.username, emailId: user.emailId },
+          {
+            _id: user._id,
+            username: user.username,
+            emailId: user.emailId,
+            imageUrl: user.imageUrl,
+          },
           process.env.JWT_SECRET_KEY
         );
 

@@ -2,6 +2,8 @@ import express from "express";
 import {
   addUserController,
   loginUserController,
+  logoutUserController,
+  verifyUserController,
 } from "./controllers/user.controller.js";
 import {
   addBlogController,
@@ -18,6 +20,8 @@ const router = express.Router();
 // User Routes
 router.post("/user/login", loginUserController);
 router.post("/user/add-user", addUserController);
+router.post("/user/verify-user", verifyUserController);
+router.post("/user/logout", logoutUserController);
 
 // Blog Routes
 router.post("/blog/add-blog", isUser, addBlogController);
